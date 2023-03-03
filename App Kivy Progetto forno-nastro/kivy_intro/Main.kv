@@ -1,0 +1,510 @@
+#:kivy 2.1.0
+#:import hex kivy.utils.get_color_from_hex
+#:import Factory kivy.factory.Factory
+
+
+ScreenManager:
+    MainScreen:
+        name: "mainscreen"
+    
+    SelectionScreen:
+        name: "selectionscreen"
+
+    ManualMonitoringScreen:
+        name: "manualmonitoringscreen"
+    
+    AutomaticMonitoringScreen:
+        name: "automaticmonitoringscreen"
+    
+
+<MainScreen>:
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: "SISTEMA MONITORAGGIO"
+            anchor_title: "center"
+
+        GridLayout:
+            rows: 2
+
+            MDLabel:
+                text: "Inserisci indirizzo ip e premi connetti"
+                halign: "center"
+                pos_hint_y: 0.9
+                #height: self.texture_size[1]
+                text_size: self.width, None
+
+            MDTextFieldRect:
+                id: indirizzoIp
+                hint_text: "Indirizzo IP"
+                size_hint: (0.5, 0.5)
+                halign: "center"
+                
+
+        MDRectangleFlatButton:
+            canvas.before:
+                #Impostazione colore background finestra
+                Color:
+                    rgba: hex('#181a18')
+                Rectangle:
+                    #source: "background.png"
+                    pos: self.pos
+                    size: self.size
+            id: connessione_server
+            text: 'Connettiti al server'
+            size_hint: (1, 0.25)
+            #pos_hint: {"center_x": 0.5, "center_y": 3} 
+            background_color: hex("#786D6D")
+            on_press: app.connessione_server()
+
+<ManualMonitoringScreen>:
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+
+        MDToolbar:
+            title: "SISTEMA MONITORAGGIO"
+            anchor_title: "center"
+            left_action_items: [['arrow-left', lambda x: app.go_to_selectionscreen()]] 
+
+        MDLabel:
+            text: "ALTOFORNO"
+            halign: "center"
+            size_hint_y: 0.1
+            height: self.texture_size[1]
+            text_size: self.width, None
+
+        GridLayout:
+            rows: 3
+            padding: 2
+        
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "STATO"
+                    #halign: "center"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.stato_altoforno()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: stato_forno
+                    text: "IDLE"
+                    halign: "center"
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+            
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+                Button:
+                    text: "Temperatura"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.butt_altoforno() 
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: temperatura
+                    text: "0.0 °C"
+                    halign: "center"
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    
+                    text: "Pressione"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.butt_altoforno()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: pressione
+                    text: "0.0 bar"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+        MDLabel:
+            text: "NASTRO TRASPORTATORE"
+            halign: "center"
+            size_hint_y: 0.1
+            height: self.texture_size[1]
+            text_size: self.width, None
+
+        GridLayout:
+            rows: 3
+            #cols: 2
+            padding: 2
+            #spacing: 
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "STATO"
+                    #halign: "center"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.stato_nastrotrasportatore()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: stato_nastro
+                    text: "IDLE"
+                    halign: "center"
+                    size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+            
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "Posizione"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.butt_nastro()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: posizione
+                    text: "0.0 m"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "Velocità"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.butt_nastro()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: velocita
+                    text: "0.0 m/s"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+<AutomaticMonitoringScreen>:
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 5
+
+        MDToolbar:
+            title: "SISTEMA MONITORAGGIO"
+            anchor_title: "center"
+            left_action_items: [['arrow-left', lambda x: app.go_to_selectionscreen()]] 
+
+        MDLabel:
+            text: "ALTOFORNO"
+            halign: "center"
+            size_hint_y: 0.1
+            height: self.texture_size[1]
+            text_size: self.width, None
+
+        GridLayout:
+            rows: 3
+            padding: 2
+        
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "STATO"
+                    #halign: "center"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: stato_forno
+                    text: "IDLE"
+                    halign: "center"
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+            
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+                Button:
+                    text: "Temperatura"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: temperatura
+                    text: "0.0 °C"
+                    halign: "center"
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    
+                    text: "Pressione"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: pressione
+                    text: "0.0 bar"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+        MDLabel:
+            text: "NASTRO TRASPORTATORE"
+            halign: "center"
+            size_hint_y: 0.1
+            height: self.texture_size[1]
+            text_size: self.width, None
+
+        GridLayout:
+            rows: 3
+            #cols: 2
+            padding: 2
+            #spacing: 
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "STATO"
+                    #halign: "center"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: stato_nastro
+                    text: "IDLE"
+                    halign: "center"
+                    size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+            
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "Posizione"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: posizione
+                    text: "0.0 m"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+            GridLayout:
+                cols: 2
+                spacing: 44
+                padding: 10
+
+
+                Button:
+                    text: "Velocità"
+                    size_hint: (0.5, 0.2)
+                    on_press: app.automatic_button()
+
+                MDLabel:
+                    canvas.before:
+                        Color:
+                            rgba: hex("#70605f")
+                        Rectangle:
+                            #width: 3
+                            #rectangle: self.x, self.y, self.width, self.height
+                            size: self.size
+                            pos: self.pos
+                    id: velocita
+                    text: "0.0 m/s"
+                    halign: "center"
+                    #size_hint_y: 0.1
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+
+<SelectionScreen>:
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDToolbar:
+            title: "SISTEMA MONITORAGGIO"
+            left_action_items: [['lan-disconnect', lambda x: app.chiusura_connessione()]] 
+            anchor_title: "center"
+
+        FloatLayout:
+
+            MDLabel:
+                text: "Seleziona la modalità di monitoraggio"
+                pos_hint: {"center_x": 0.5, "center_y": 0.9} 
+                halign: "center"
+
+            MDRectangleFlatButton:
+                canvas.before:
+                    #Impostazione colore background finestra
+                    Color:
+                        rgba: hex('#181a18')
+                    Rectangle:
+                        #source: "background.png"
+                        pos: self.pos
+                        size: self.size
+                id: connessione_server
+                text: 'Monitoraggio Automatico'
+                size_hint: (0.65, 0.2)
+                pos_hint: {"center_x": 0.5, "center_y": 0.65} 
+                background_color: hex("#786D6D")
+                on_press: app.go_to_automaticmonitoringscreen()
+
+            MDRectangleFlatButton:
+                canvas.before:
+                    #Impostazione colore background finestra
+                    Color:
+                        rgba: hex('#181a18')
+                    Rectangle:
+                        #source: "background.png"
+                        pos: self.pos
+                        size: self.size
+                id: connessione_server
+                text: 'Monitoraggio Manuale'
+                size_hint: (0.65, 0.2)
+                pos_hint: {"center_x": 0.5, "center_y": 0.35} 
+                background_color: hex("#786D6D")
+                on_press: app.go_to_manualmonitoringscreen()
+            
+               
+                
+
+
